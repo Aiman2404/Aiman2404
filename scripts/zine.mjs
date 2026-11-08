@@ -1,5 +1,5 @@
 // Generates the static zine art in assets/zine/. Run: node scripts/zine.mjs
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, writeFile, readFile, readdir, unlink } from 'node:fs/promises';
 import { C, rng, esc, ransom, star, burst, defs, grain, tape, pixelCat, catCss, scrap } from './zine-lib.mjs';
 
 const OUT = new URL('../assets/zine/', import.meta.url);
@@ -52,34 +52,71 @@ ${grain(W, H)}
   await save('cover.svg', svg);
 }
 
-/* ---------------- TEAR-OFF FLYER (links) ---------------- */
+/* ---------------- MENU BUTTONS (top links) ---------------- */
+{
+  const glyph = {
+    tri: `<path d="M0 -13 L12 9 L-12 9 Z" fill="none" stroke="#6ff3c2" stroke-width="3.2"/>`,
+    circ: `<circle r="11" fill="none" stroke="${C.red}" stroke-width="3.4"/>`,
+    cross: `<path d="M-10 -10 L10 10 M10 -10 L-10 10" stroke="#7fb3ff" stroke-width="3.4"/>`,
+    sq: `<rect x="-10" y="-10" width="20" height="20" fill="none" stroke="#ff8fd0" stroke-width="3.2"/>`,
+  };
+  const buttons = [['portfolio', 'PORTFOLIO', 'tri'], ['linkedin', 'LINKEDIN', 'circ'], ['email', 'EMAIL', 'cross'], ['note', 'LEAVE A NOTE', 'sq']];
+  for (const [i, [file, label, g]] of buttons.entries()) {
+    const W = 290, H = 96, r = rng(file);
+    const t = ransom(label, { x: 60, y: 50, size: 30, seed: file + 'x', align: 'start', tilt: 8,
+      papers: [[C.ink, C.white], [C.white, C.ink], [C.ink, C.white], [C.ink, C.white]] });
+    const scale = Math.min(1, 205 / t.width);
+    const svg = `${open(W, H, label, '.bob{animation:bob 2.4s ease-in-out infinite}@keyframes bob{50%{transform:translateY(-3px)}}')}
+<g class="bob" style="animation-delay:${-i * 0.6}s">
+<path d="M18 22 L${W - 8} 8 L${W - 22} ${H - 14} L8 ${H - 6} Z" fill="${C.red}"/>
+<path d="M14 16 L${W - 18} 14 L${W - 30} ${H - 22} L22 ${H - 14} Z" fill="${C.ink}"/>
+<g transform="translate(40 50) rotate(${-6 + r() * 4})"><circle r="19" fill="${C.white}"/><circle r="17" fill="${C.ink}"/>${glyph[g]}</g>
+<g transform="translate(${10 * (1 - scale)} ${50 * (1 - scale)}) scale(${scale.toFixed(3)})"><g transform="translate(14 0)">${t.svg}</g></g>
+</g></svg>`;
+    await save(`btn-${file}.svg`, svg);
+  }
+}
+
+/* ---------------- TEAR-OFF FLYER (projects, from projects.json) ---------------- */
 {
   const W = 1200, H = 200;
   const t = ransom('TAKE ONE', { x: W / 2, y: 92, size: 74, seed: 'take-4' });
-  const head = `${open(W, H, 'Take one — pull a tab below')}
+  const head = `${open(W, H, 'Take one — my projects, one tab each')}
 <rect width="${W}" height="${H}" fill="${C.ink}"/>
 <path d="M150 12 L1050 6 L1056 ${H} L144 ${H} Z" fill="${C.paper}"/>
 ${tape(600, 10, 150, -2)}
 ${t.svg}
-<text x="${W / 2}" y="160" text-anchor="middle" class="mono" font-size="16" fill="${C.ink}" letter-spacing="4">PULL A TAB. IT'S FREE.</text>
+<text x="${W / 2}" y="160" text-anchor="middle" class="mono" font-size="16" fill="${C.ink}" letter-spacing="4">PROJECTS · PULL A TAB, IT'S FREE</text>
 <path d="M150 ${H - 3} H1050" stroke="${C.slate}" stroke-width="2" stroke-dasharray="7 6"/>
 <g class="spin"><path d="${star(232, 70, 22)}" fill="${C.orange}" stroke="${C.ink}" stroke-width="2.5"/></g>
 <g class="spin" style="animation-direction:reverse"><path d="${star(968, 128, 16)}" fill="none" stroke="${C.ink}" stroke-width="2.5"/></g>
 ${grain(W, H)}</svg>`;
   await save('flyer.svg', head);
-  const tabs = [['portfolio', 'PORTFOLIO', 'aiman2404.github.io'], ['linkedin', 'LINKEDIN', 'let\'s talk work'], ['project', 'STEAM-IPAD', 'latest build'], ['note', 'LEAVE A NOTE', 'say hi ✂'], ['torn', '', '']];
-  for (const [i, [file, label, sub]] of tabs.entries()) {
+
+  const projects = JSON.parse(await readFile(new URL('../projects.json', import.meta.url), 'utf8'));
+  const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  const tabs = [...projects.map((p) => ({ file: 'p-' + slug(p.name), label: p.name.toUpperCase(), sub: p.note || '', url: p.url })), ...(projects.length < 3 ? [{ file: 'soon', label: 'COMING SOON', sub: 'next build loading…' }] : []), { file: 'torn' }];
+  for (const f of await readdir(OUT)) if (f.startsWith('tab-')) await unlink(new URL(f, OUT));
+  for (const [i, { file, label = '', sub = '' }] of tabs.entries()) {
     const TW = 150, TH = 300, r = rng('tab' + file);
+    const size = Math.min(34, 262 / Math.max(1, label.length * 0.6));
     const rag = Array.from({ length: 11 }, (_, k) => `${(k * TW / 10).toFixed(0)} ${(TH - 6 - r() * 16).toFixed(0)}`).join(' L');
     const body = file === 'torn'
       ? `<path d="M2 0 H${TW - 2} V96 L${rag.split(' L').reverse().map((p) => p.split(' ')[0] + ' ' + (+p.split(' ')[1] - 180)).join(' L')} Z" fill="${C.paper}" opacity=".85"/>`
       : `<path d="M2 0 H${TW - 2} V${TH - 4} L2 ${TH - 2} Z" fill="${C.paper}"/>
-<g transform="translate(${TW / 2 + 12} ${TH / 2}) rotate(-90)"><text text-anchor="middle" class="heavy" font-size="34" fill="${C.ink}" letter-spacing="2">${esc(label)}</text></g>
-<g transform="translate(${TW / 2 + 40} ${TH / 2}) rotate(-90)"><text text-anchor="middle" class="mono" font-size="13" fill="${[C.orange, C.slate, C.red, C.orange][i]}" letter-spacing="1">${esc(sub)}</text></g>`;
+<g transform="translate(${TW / 2 + 12} ${TH / 2}) rotate(-90)"><text text-anchor="middle" class="heavy" font-size="${size.toFixed(1)}" fill="${C.ink}" letter-spacing="2">${esc(label)}</text></g>
+<g transform="translate(${TW / 2 + 40} ${TH / 2}) rotate(-90)"><text text-anchor="middle" class="mono" font-size="13" fill="${[C.orange, C.slate, C.red][i % 3]}" letter-spacing="1">${esc(sub.slice(0, 30))}</text></g>`;
     const svg = `${open(TW, TH, label || 'a tab someone already took', '.sway{animation:sway 4s ease-in-out infinite;transform-origin:75px 0}@keyframes sway{0%,100%{transform:rotate(-1.4deg)}50%{transform:rotate(1.4deg)}}')}
-<g class="sway" style="animation-delay:${(-i * 0.7).toFixed(1)}s">${body}<path d="M2 2 H${TW - 2}" stroke="${C.slate}" stroke-width="2" stroke-dasharray="7 6"/></g>${file === 'torn' ? '' : grain(TW, TH)}</svg>`;
+<g class="sway" style="animation-delay:${(-i * 0.7).toFixed(1)}s" opacity="${file === 'soon' ? 0.55 : 1}">${body}<path d="M2 2 H${TW - 2}" stroke="${C.slate}" stroke-width="2" stroke-dasharray="7 6"/></g>${file === 'torn' ? '' : grain(TW, TH)}</svg>`;
     await save(`tab-${file}.svg`, svg);
   }
+  // rewrite the projects block in README.md
+  const imgs = tabs.map((t) => t.file === 'torn' || t.file === 'soon'
+    ? `<img src="assets/zine/tab-${t.file}.svg" width="15%" alt="${t.file === 'soon' ? 'next project coming soon' : ''}"/>`
+    : `<a href="${t.url}"><img src="assets/zine/tab-${t.file}.svg" width="15%" alt="${esc(t.label)} — ${esc(t.sub)}"/></a>`).join('');
+  const block = `<!--PROJECTS:START-->\n<p align="center"><img src="assets/zine/flyer.svg" width="100%" alt="Take one — my projects"/><br/>${imgs}</p>\n<!--PROJECTS:END-->`;
+  const ru = new URL('../README.md', import.meta.url);
+  await writeFile(ru, (await readFile(ru, 'utf8')).replace(/<!--PROJECTS:START-->[\s\S]*?<!--PROJECTS:END-->/, block));
 }
 
 /* ---------------- THINGS I'M INTO (collage) ---------------- */

@@ -12,4 +12,4 @@
 .heavy{font-family:Impact,"Arial Black",sans-serif}
 .sway{animation:sway 4s ease-in-out infinite;transform-origin:75px 0}@keyframes sway{0%,100%{transform:rotate(-1.4deg)}50%{transform:rotate(1.4deg)}}
 </style></defs>
-<g class="sway" style="animation-delay:-2.8s"><path d="M2 0 H148 V96 L150 102 L135 104 L120 109 L105 112 L90 105 L75 110 L60 106 L45 109 L30 99 L15 108 L0 110 Z" fill="#f4ecdf" opacity=".85"/><path d="M2 2 H148" stroke="#4b607f" stroke-width="2" stroke-dasharray="7 6"/></g></svg>
+<g class="sway" style="animation-delay:-1.4s" opacity="1"><path d="M2 0 H148 V96 L150 102 L135 104 L120 109 L105 112 L90 105 L75 110 L60 106 L45 109 L30 99 L15 108 L0 110 Z" fill="#f4ecdf" opacity=".85"/><path d="M2 2 H148" stroke="#4b607f" stroke-width="2" stroke-dasharray="7 6"/></g></svg>
