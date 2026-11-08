@@ -52,36 +52,42 @@ ${grain(W, H)}
   await save('cover.svg', svg);
 }
 
-/* ---------------- MENU BUTTONS ---------------- */
-const glyph = {
-  tri: `<path d="M0 -13 L12 9 L-12 9 Z" fill="none" stroke="#6ff3c2" stroke-width="3.2"/>`,
-  circ: `<circle r="11" fill="none" stroke="${C.red}" stroke-width="3.4"/>`,
-  cross: `<path d="M-10 -10 L10 10 M10 -10 L-10 10" stroke="#7fb3ff" stroke-width="3.4"/>`,
-  sq: `<rect x="-10" y="-10" width="20" height="20" fill="none" stroke="#ff8fd0" stroke-width="3.2"/>`,
-};
-const buttons = [['portfolio', 'PORTFOLIO', 'tri'], ['linkedin', 'LINKEDIN', 'circ'], ['project', 'STEAM-IPAD', 'cross'], ['note', 'LEAVE A NOTE', 'sq']];
-for (const [i, [file, label, g]] of buttons.entries()) {
-  const W = 290, H = 96, r = rng(file);
-  const t = ransom(label, { x: 60, y: 50, size: 30, seed: file + 'x', align: 'start', tilt: 8,
-    papers: [[C.ink, C.white], [C.white, C.ink], [C.ink, C.white], [C.ink, C.white]] });
-  const scale = Math.min(1, 205 / t.width);
-  const svg = `${open(W, H, label, '.bob{animation:bob 2.4s ease-in-out infinite}@keyframes bob{50%{transform:translateY(-3px)}}')}
-<g class="bob" style="animation-delay:${-i * 0.6}s">
-<path d="M18 22 L${W - 8} 8 L${W - 22} ${H - 14} L8 ${H - 6} Z" fill="${C.red}"/>
-<path d="M14 16 L${W - 18} 14 L${W - 30} ${H - 22} L22 ${H - 14} Z" fill="${C.ink}"/>
-<g transform="translate(40 50) rotate(${-6 + r() * 4})"><circle r="19" fill="${C.white}"/><circle r="17" fill="${C.ink}"/>${glyph[g]}</g>
-<g transform="translate(${10 * (1 - scale)} ${50 * (1 - scale)}) scale(${scale.toFixed(3)})"><g transform="translate(14 0)">${t.svg}</g></g>
-</g></svg>`;
-  await save(`btn-${file}.svg`, svg);
+/* ---------------- TEAR-OFF FLYER (links) ---------------- */
+{
+  const W = 1200, H = 200;
+  const t = ransom('TAKE ONE', { x: W / 2, y: 92, size: 74, seed: 'take-4' });
+  const head = `${open(W, H, 'Take one — pull a tab below')}
+<rect width="${W}" height="${H}" fill="${C.ink}"/>
+<path d="M150 12 L1050 6 L1056 ${H} L144 ${H} Z" fill="${C.paper}"/>
+${tape(600, 10, 150, -2)}
+${t.svg}
+<text x="${W / 2}" y="160" text-anchor="middle" class="mono" font-size="16" fill="${C.ink}" letter-spacing="4">PULL A TAB. IT'S FREE.</text>
+<path d="M150 ${H - 3} H1050" stroke="${C.slate}" stroke-width="2" stroke-dasharray="7 6"/>
+<g class="spin"><path d="${star(232, 70, 22)}" fill="${C.orange}" stroke="${C.ink}" stroke-width="2.5"/></g>
+<g class="spin" style="animation-direction:reverse"><path d="${star(968, 128, 16)}" fill="none" stroke="${C.ink}" stroke-width="2.5"/></g>
+${grain(W, H)}</svg>`;
+  await save('flyer.svg', head);
+  const tabs = [['portfolio', 'PORTFOLIO', 'aiman2404.github.io'], ['linkedin', 'LINKEDIN', 'let\'s talk work'], ['project', 'STEAM-IPAD', 'latest build'], ['note', 'LEAVE A NOTE', 'say hi ✂'], ['torn', '', '']];
+  for (const [i, [file, label, sub]] of tabs.entries()) {
+    const TW = 150, TH = 300, r = rng('tab' + file);
+    const rag = Array.from({ length: 11 }, (_, k) => `${(k * TW / 10).toFixed(0)} ${(TH - 6 - r() * 16).toFixed(0)}`).join(' L');
+    const body = file === 'torn'
+      ? `<path d="M2 0 H${TW - 2} V96 L${rag.split(' L').reverse().map((p) => p.split(' ')[0] + ' ' + (+p.split(' ')[1] - 180)).join(' L')} Z" fill="${C.paper}" opacity=".85"/>`
+      : `<path d="M2 0 H${TW - 2} V${TH - 4} L2 ${TH - 2} Z" fill="${C.paper}"/>
+<g transform="translate(${TW / 2 + 12} ${TH / 2}) rotate(-90)"><text text-anchor="middle" class="heavy" font-size="34" fill="${C.ink}" letter-spacing="2">${esc(label)}</text></g>
+<g transform="translate(${TW / 2 + 40} ${TH / 2}) rotate(-90)"><text text-anchor="middle" class="mono" font-size="13" fill="${[C.orange, C.slate, C.red, C.orange][i]}" letter-spacing="1">${esc(sub)}</text></g>`;
+    const svg = `${open(TW, TH, label || 'a tab someone already took', '.sway{animation:sway 4s ease-in-out infinite;transform-origin:75px 0}@keyframes sway{0%,100%{transform:rotate(-1.4deg)}50%{transform:rotate(1.4deg)}}')}
+<g class="sway" style="animation-delay:${(-i * 0.7).toFixed(1)}s">${body}<path d="M2 2 H${TW - 2}" stroke="${C.slate}" stroke-width="2" stroke-dasharray="7 6"/></g>${file === 'torn' ? '' : grain(TW, TH)}</svg>`;
+    await save(`tab-${file}.svg`, svg);
+  }
 }
 
 /* ---------------- THINGS I'M INTO (collage) ---------------- */
 {
-  const W = 1200, cw = 362, ch = 214, gx = 32, gy = 34, X0 = 38, Y0 = 108;
+  const W = 1200, cw = 263, ch = 206, gx = 22, gy = 30, X0 = (W - (4 * cw + 3 * gx)) / 2, Y0 = 110;
   const css = `${catCss}
-.l{fill:#3a1410;animation:light 6s steps(1) infinite}
-@keyframes light{0%{fill:#3a1410}100%{fill:#3a1410}}
-.l1{animation-name:l1}.l2{animation-name:l2}.l3{animation-name:l3}.l4{animation-name:l4}.l5{animation-name:l5}
+.l{fill:#3a1410;animation:l1 6s steps(1) infinite}
+.l2{animation-name:l2}.l3{animation-name:l3}.l4{animation-name:l4}.l5{animation-name:l5}
 @keyframes l1{0%,12%{fill:#3a1410}13%,74%{fill:#ff2a1a}75%,100%{fill:#3a1410}}
 @keyframes l2{0%,24%{fill:#3a1410}25%,74%{fill:#ff2a1a}75%,100%{fill:#3a1410}}
 @keyframes l3{0%,36%{fill:#3a1410}37%,74%{fill:#ff2a1a}75%,100%{fill:#3a1410}}
@@ -89,66 +95,82 @@ for (const [i, [file, label, g]] of buttons.entries()) {
 @keyframes l5{0%,60%{fill:#3a1410}61%,74%{fill:#ff2a1a}75%,100%{fill:#3a1410}}
 .go{opacity:0;animation:go 6s steps(1) infinite}@keyframes go{0%,74%{opacity:0}75%,96%{opacity:1}97%{opacity:0}}
 .reel{animation:reel 1.2s linear infinite}@keyframes reel{to{transform:translateX(-36px)}}
-.ball{animation:ball 1.6s cubic-bezier(.3,0,.7,1) infinite alternate}@keyframes ball{from{transform:translateY(0)}to{transform:translateY(-34px)}}
+.ball{animation:ball 1.6s cubic-bezier(.3,0,.7,1) infinite alternate}@keyframes ball{from{transform:translateY(0)}to{transform:translateY(-30px)}}
 .needle{animation:rev 3.2s ease-in-out infinite;transform-origin:0 0}@keyframes rev{0%{transform:rotate(-120deg)}45%{transform:rotate(70deg)}55%{transform:rotate(62deg)}100%{transform:rotate(-120deg)}}
-.pong{animation:pong 1.1s ease-in-out infinite alternate}@keyframes pong{from{transform:translateX(0)}to{transform:translateX(150px)}}
-.hero{animation:hero 3s steps(1) infinite}@keyframes hero{50%{opacity:.25}}`;
+.blink{animation:blink2 1s steps(1) infinite}@keyframes blink2{50%{opacity:.15}}
+.pulse{animation:pulse 1.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}@keyframes pulse{50%{transform:scale(1.12) rotate(-4deg)}}
+.zap{animation:zap 3s steps(1) infinite}@keyframes zap{0%,86%{opacity:.25}88%,92%{opacity:1}90%{opacity:.4}}
+.score{animation:score 5s steps(1) infinite}@keyframes score{0%,49%{opacity:1}50%,100%{opacity:0}}
+.score2{animation:score 5s steps(1) infinite reverse}`;
   const card = (i, bg, inner, rot) => {
-    const x = X0 + (i % 3) * (cw + gx), y = Y0 + Math.floor(i / 3) * (ch + gy), r = rng('card' + i);
-    return `<g transform="translate(${x} ${y}) rotate(${rot} ${cw / 2} ${ch / 2})">
+    const x = X0 + (i % 4) * (cw + gx), y = Y0 + Math.floor(i / 4) * (ch + gy), r = rng('card' + i);
+    return `<g transform="translate(${x.toFixed(1)} ${y}) rotate(${rot} ${cw / 2} ${ch / 2})">
 <rect x="6" y="7" width="${cw}" height="${ch}" fill="${C.ink}" opacity=".85"/>
 <rect width="${cw}" height="${ch}" fill="${bg}"/>${inner}
-${tape(cw / 2 + (r() - 0.5) * 120, 0, 84, (r() - 0.5) * 18)}</g>`;
+${tape(cw / 2 + (r() - 0.5) * 90, 0, 76, (r() - 0.5) * 18)}</g>`;
   };
-  const lab = (x, y, s, fill = C.ink, size = 13) => `<text x="${x}" y="${y}" class="mono" font-size="${size}" fill="${fill}" letter-spacing="2">${esc(s)}</text>`;
-  const big = (x, y, s, fill, size = 34, cls = 'heavy') => `<text x="${x}" y="${y}" class="${cls}" font-size="${size}" fill="${fill}" letter-spacing="1">${esc(s)}</text>`;
+  const lab = (x, y, s, fill = C.ink, size = 10) => `<text x="${x}" y="${y}" class="mono" font-size="${size}" fill="${fill}" letter-spacing="1.5">${esc(s)}</text>`;
+  const big = (x, y, s, fill, size = 30, extra = 'class="heavy"') => `<text x="${x}" y="${y}" font-size="${size}" fill="${fill}" letter-spacing="1" ${extra}>${esc(s)}</text>`;
+  const sp = (n, fn) => Array.from({ length: n }, (_, k) => fn(k)).join('');
 
   const cards = [
-    // F1 lights
-    card(0, C.ink, `${[0, 1, 2, 3, 4].map((k) => `<g transform="translate(${46 + k * 66} 46)"><rect x="-24" y="0" width="48" height="96" rx="8" fill="#222"/><circle cy="26" r="15" class="l l${k + 1}"/><circle cy="68" r="15" class="l l${k + 1}"/></g>`).join('')}
-${big(26, 186, 'LIGHTS OUT', C.white, 30)}<text x="196" y="186" class="heavy go" font-size="30" fill="${C.orange}">AND AWAY WE GO</text>${lab(26, 206, 'FORMULA 1 · SUNDAYS ARE BOOKED', '#9a9a9a', 10)}`, -1.5),
-    // football
-    card(1, '#2f6b45', `<g stroke="${C.white}" stroke-opacity=".7" stroke-width="2" fill="none"><rect x="14" y="14" width="${cw - 28}" height="${ch - 28}"/><line x1="${cw / 2}" y1="14" x2="${cw / 2}" y2="${ch - 14}"/><circle cx="${cw / 2}" cy="${ch / 2}" r="34"/><rect x="14" y="62" width="44" height="90"/><rect x="${cw - 58}" y="62" width="44" height="90"/></g>
-<text x="${cw / 2}" y="${ch / 2 + 46}" text-anchor="middle" class="heavy" font-size="130" fill="${C.white}" opacity=".16">10</text>
-<g class="ball"><circle cx="${cw / 2}" cy="${ch / 2 + 4}" r="11" fill="${C.white}"/><path d="${star(cw / 2, ch / 2 + 4, 5, 3)}" fill="${C.ink}"/></g>
-<g transform="rotate(-4 90 42)"><rect x="22" y="22" width="178" height="38" fill="#75aadb"/><rect x="22" y="34" width="178" height="14" fill="${C.white}"/>${big(30, 54, 'MESSI · ARG', C.ink, 26)}</g>
-${lab(22, 196, 'BARÇA + every club, honestly', C.white, 11)}`, 1.2),
-    // anime ticket
-    card(2, C.orange, `<path d="M0 0 H${cw} V${ch} H0 Z" fill="${C.orange}"/><line x1="268" y1="10" x2="268" y2="${ch - 10}" stroke="${C.ink}" stroke-width="2" stroke-dasharray="6 6"/>
-${lab(22, 40, 'ADMIT ONE · SEASON PASS')}${big(20, 128, '200+', C.ink, 92)}${big(22, 168, 'ANIME WATCHED', C.ink, 26)}${lab(22, 196, 'still on the “just one more ep” arc', C.ink, 10)}
-<g transform="translate(316 ${ch / 2}) rotate(90)"><text text-anchor="middle" class="mono" font-size="15" fill="${C.ink}" letter-spacing="4">NO. 0200</text></g>
-<circle cx="268" cy="0" r="14" fill="${C.cream}"/><circle cx="268" cy="${ch}" r="14" fill="${C.cream}"/>`, -1),
-    // film strip
-    card(3, C.ink, `<g class="reel">${Array.from({ length: 14 }, (_, k) => `<rect x="${k * 36}" y="12" width="20" height="13" rx="2" fill="${C.cream}"/><rect x="${k * 36}" y="${ch - 25}" width="20" height="13" rx="2" fill="${C.cream}"/>`).join('')}</g>
-${[0, 1, 2].map((k) => `<rect x="${18 + k * 112}" y="40" width="102" height="94" fill="${[C.slate, '#6b2f2a', '#3d4a2f'][k]}"/>`).join('')}
-<path d="M30 120 L60 70 L85 105 L100 90 L114 120Z" fill="${C.cream}" opacity=".6"/><circle cx="185" cy="80" r="20" fill="${C.orange}" opacity=".8"/><path d="M250 120 L262 64 L282 64 L300 120Z" fill="${C.cream}" opacity=".5"/>
-${big(20, 168, 'MOVIES & SHOWS', C.white, 28)}${lab(260, 168, '∞', C.orange, 26)}`, 1.4),
-    // controller
-    card(4, C.slate, `<path d="M90 70 Q${cw / 2} 50 ${cw - 90} 70 Q${cw - 40} 80 ${cw - 50} 150 Q${cw - 62} 178 ${cw - 100} 150 L110 150 Q72 178 60 150 Q50 80 90 70Z" fill="${C.ink}"/>
-<g transform="translate(${cw - 112} 100)"><g transform="translate(0 -18)"><path d="M0 -7 L7 5 L-7 5Z" fill="none" stroke="#6ff3c2" stroke-width="2.2"/></g><g transform="translate(18 0)"><circle r="6" fill="none" stroke="${C.red}" stroke-width="2.2"/></g><g transform="translate(0 18)"><path d="M-5 -5 L5 5 M5 -5 L-5 5" stroke="#7fb3ff" stroke-width="2.2"/></g><g transform="translate(-18 0)"><rect x="-5" y="-5" width="10" height="10" fill="none" stroke="#ff8fd0" stroke-width="2.2"/></g></g>
-<g transform="translate(112 100)" fill="#555"><rect x="-6" y="-18" width="12" height="36"/><rect x="-18" y="-6" width="36" height="12"/></g>
-<circle cx="150" cy="128" r="12" fill="#333"/><circle cx="${cw - 150}" cy="128" r="12" fill="#333"/>
-${big(22, 44, 'PRESS START', C.white, 26)}<text x="${cw - 22}" y="44" text-anchor="end" class="mono hero" font-size="12" fill="${C.cream}">▶ CONTINUE?</text>${lab(22, 198, 'PS4 · iPAD · STORY GAMES ONLY GO HARD', C.cream, 10)}`, -1.2),
-    // racket sports
-    card(5, C.cream, `<g transform="translate(70 92) rotate(-25)"><ellipse rx="36" ry="40" fill="${C.red}"/><rect x="-7" y="36" width="14" height="44" rx="4" fill="#8a5a33"/></g>
-<g transform="translate(${cw - 76} 88)"><circle r="38" fill="${C.white}" stroke="${C.ink}" stroke-width="2.5"/><path d="M0 0 Q-4 -22 -22 -31 M0 0 Q22 4 36 -12 M0 0 Q-14 18 -10 37 M-30 -21 Q-30 -2 -37 8 M33 -17 Q18 14 30 24 M-18 34 Q8 26 22 31" fill="none" stroke="${C.slate}" stroke-width="2.6"/><path d="M0 0 Q-4 -22 -22 -31 Q-38 -10 -36 10 Q-20 4 0 0Z" fill="#f2c94c" opacity=".55"/><path d="M0 0 Q22 4 36 -12 Q40 16 22 32 Q-4 26 0 0Z" fill="#75aadb" opacity=".45"/></g>
-<g class="pong"><circle cx="110" cy="70" r="6" fill="${C.orange}"/></g>
-${big(22, 168, 'TABLE TENNIS · VOLLEYBALL · PADEL', C.ink, 19)}${lab(22, 194, 'not watching. playing.', C.slate, 11)}`, 1),
-    // cars & pc parts
-    card(6, C.ink, `<g transform="translate(98 104)"><circle r="66" fill="#1f1f1f" stroke="${C.cream}" stroke-width="2"/>${Array.from({ length: 9 }, (_, k) => { const a = (-210 + k * 30) * Math.PI / 180; return `<line x1="${(54 * Math.cos(a)).toFixed(1)}" y1="${(54 * Math.sin(a)).toFixed(1)}" x2="${(62 * Math.cos(a)).toFixed(1)}" y2="${(62 * Math.sin(a)).toFixed(1)}" stroke="${k > 6 ? C.red : C.cream}" stroke-width="3"/>`; }).join('')}<g class="needle"><line x1="0" y1="0" x2="48" y2="0" stroke="${C.orange}" stroke-width="4" stroke-linecap="round"/></g><circle r="6" fill="${C.orange}"/><text y="34" text-anchor="middle" class="mono" font-size="10" fill="${C.cream}">x1000 rpm</text></g>
-<g transform="translate(250 92)"><rect x="-44" y="-44" width="88" height="88" rx="4" fill="${C.slate}"/>${Array.from({ length: 6 }, (_, k) => `<rect x="${-36 + k * 14}" y="-56" width="5" height="12" fill="${C.cream}"/><rect x="${-36 + k * 14}" y="44" width="5" height="12" fill="${C.cream}"/>`).join('')}<rect x="-26" y="-26" width="52" height="52" fill="#2b3a52"/><text y="6" text-anchor="middle" class="mono" font-size="14" fill="${C.cream}">CPU</text></g>
-${big(22, 196, 'CARS & PC SPECS', C.white, 24)}<text x="${cw - 22}" y="196" text-anchor="end" class="mono" font-size="10" fill="${C.orange}">ASK ME</text>`, -0.8),
-    // marvel / post credits
-    card(7, C.red, `<rect x="16" y="16" width="${cw - 32}" height="${ch - 32}" fill="none" stroke="${C.white}" stroke-width="2"/>
-${big(cw / 2 - 150, 92, 'I STAY FOR THE', C.white, 30)}${big(cw / 2 - 150, 140, 'POST-CREDITS', C.ink, 44)}
-${lab(36, 180, 'MARVEL · always · scroll to the end ↓', C.white, 11)}`, 1.3),
-    // music
-    card(8, C.slate, `<g transform="translate(96 ${ch / 2 - 4})"><g class="spin" style="animation-duration:3s"><circle r="72" fill="${C.ink}"/>${[60, 50, 40].map((rr) => `<circle r="${rr}" fill="none" stroke="#2c2c2c" stroke-width="1.5"/>`).join('')}<circle r="24" fill="${C.orange}"/><path d="M-24 0 H24" stroke="${C.ink}" stroke-width="2" opacity=".3"/><circle r="3" fill="${C.ink}"/></g></g>
-${big(190, 78, 'SONGS IN', C.white, 26)}${big(190, 110, 'EVERY', C.cream, 26)}${big(190, 142, 'LANGUAGE', C.orange, 26)}${lab(190, 172, '505 on repeat', C.cream, 11)}`, -1.4),
+    // 0 F1
+    card(0, C.ink, `${sp(5, (k) => `<g transform="translate(${36 + k * 48} 30)"><rect x="-18" y="0" width="36" height="76" rx="7" fill="#222"/><circle cy="20" r="11.5" class="l${k ? ' l' + (k + 1) : ''}"/><circle cy="54" r="11.5" class="l${k ? ' l' + (k + 1) : ''}"/></g>`)}
+${big(20, 148, 'LIGHTS OUT', C.white, 30)}${big(20, 176, 'AND AWAY WE GO', C.orange, 19, 'class="heavy go"')}${lab(20, 196, 'FORMULA 1', '#8a8a8a')}`, -1.5),
+    // 1 football
+    card(1, '#2f6b45', `<g stroke="${C.white}" stroke-opacity=".7" stroke-width="2" fill="none"><rect x="12" y="12" width="${cw - 24}" height="${ch - 24}"/><line x1="${cw / 2}" y1="12" x2="${cw / 2}" y2="${ch - 12}"/><circle cx="${cw / 2}" cy="${ch / 2}" r="30"/><rect x="12" y="60" width="36" height="86"/><rect x="${cw - 48}" y="60" width="36" height="86"/></g>
+<text x="${cw / 2}" y="${ch / 2 + 40}" text-anchor="middle" class="heavy" font-size="116" fill="${C.white}" opacity=".16">10</text>
+<g class="ball"><circle cx="${cw / 2}" cy="${ch / 2 + 6}" r="10" fill="${C.white}"/><path d="${star(cw / 2, ch / 2 + 6, 4.5, 2.6)}" fill="${C.ink}"/></g>
+<g transform="rotate(-4 90 40)"><rect x="18" y="22" width="168" height="36" fill="#75aadb"/><rect x="18" y="34" width="168" height="12" fill="${C.white}"/>${big(26, 52, 'MESSI · ARG', C.ink, 24)}</g>
+<rect x="18" y="${ch - 40}" width="${cw - 36}" height="22" fill="#a50044"/><rect x="${18 + (cw - 36) / 2}" y="${ch - 40}" width="${(cw - 36) / 2}" height="22" fill="#004d98"/>
+<text x="${cw / 2}" y="${ch - 24}" text-anchor="middle" class="mono" font-size="11" fill="#edbb00" letter-spacing="3">FORÇA BARÇA</text>`, 1.2),
+    // 2 anime — manga panel
+    card(2, C.white, `<clipPath id="clipA"><rect width="${cw}" height="${ch}"/></clipPath><g clip-path="url(#clipA)"><g stroke="${C.ink}" stroke-width="1.4">${sp(40, (k) => { const a = k * 9 * Math.PI / 180, r1 = 52 + (k % 3) * 8; return `<line x1="${(cw / 2 + Math.cos(a) * r1).toFixed(1)}" y1="${(92 + Math.sin(a) * r1 * 0.8).toFixed(1)}" x2="${(cw / 2 + Math.cos(a) * 190).toFixed(1)}" y2="${(92 + Math.sin(a) * 150).toFixed(1)}"/>`; })}</g>
+<ellipse cx="${cw / 2}" cy="92" rx="96" ry="52" fill="${C.white}"/></g>
+<g class="pulse"><text x="${cw / 2}" y="112" text-anchor="middle" font-family='"Yu Gothic","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif' font-weight="900" font-size="54" fill="${C.ink}">アニメ</text></g>
+<g transform="translate(${cw - 46} 40) rotate(14)"><text text-anchor="middle" font-family='"Yu Gothic","Noto Sans JP",sans-serif' font-weight="900" font-size="30" fill="${C.red}" stroke="${C.white}" stroke-width="5" paint-order="stroke">ドン!</text></g>
+<rect x="0" y="${ch - 44}" width="${cw}" height="44" fill="${C.ink}"/>${big(16, ch - 14, '~200 SERIES DEEP', C.white, 22)}`, -1),
+    // 3 movies & shows
+    card(3, C.ink, `<g class="reel">${sp(11, (k) => `<rect x="${k * 36}" y="12" width="20" height="12" rx="2" fill="${C.cream}"/><rect x="${k * 36}" y="${ch - 24}" width="20" height="12" rx="2" fill="${C.cream}"/>`)}</g>
+${sp(3, (k) => `<rect x="${14 + k * 80}" y="38" width="74" height="84" fill="${[C.slate, '#6b2f2a', '#3d4a2f'][k]}"/>`)}
+<path d="M22 112 L44 70 L62 100 L72 88 L84 112Z" fill="${C.cream}" opacity=".6"/><circle cx="131" cy="76" r="17" fill="${C.orange}" opacity=".85"/><path d="M196 112 L206 62 L222 62 L236 112Z" fill="${C.cream}" opacity=".5"/>
+${big(16, 158, 'MOVIES & SHOWS', C.white, 25)}${lab(16, 176, 'SEEN IT. RATED IT. QUOTED IT.', C.orange)}`, 1.4),
+    // 4 gaming
+    card(4, C.slate, `<path d="M64 66 Q${cw / 2} 50 ${cw - 64} 66 Q${cw - 26} 76 ${cw - 34} 136 Q${cw - 44} 160 ${cw - 76} 136 L76 136 Q44 160 34 136 Q26 76 64 66Z" fill="${C.ink}"/>
+<g transform="translate(${cw - 82} 96)"><path d="M0 -21 L6 -11 L-6 -11Z" fill="none" stroke="#6ff3c2" stroke-width="2"/><circle cx="14" cy="0" r="5" fill="none" stroke="${C.red}" stroke-width="2"/><path d="M-4 10 L4 18 M4 10 L-4 18" stroke="#7fb3ff" stroke-width="2"/><rect x="-18" y="-4" width="8" height="8" fill="none" stroke="#ff8fd0" stroke-width="2"/></g>
+<g transform="translate(82 96)" fill="#555"><rect x="-5" y="-15" width="10" height="30"/><rect x="-15" y="-5" width="30" height="10"/></g>
+${big(16, 40, 'PRESS START', C.white, 24)}<text x="${cw - 16}" y="40" text-anchor="end" class="mono blink" font-size="11" fill="${C.cream}">▶ 1P</text>${lab(16, 186, 'STORY GAMES ONLY GO HARD', C.cream)}`, -1.2),
+    // 5 on the court — scoreboard
+    card(5, C.cream, `<rect x="16" y="20" width="${cw - 32}" height="96" rx="6" fill="${C.ink}"/>
+<text x="56" y="44" text-anchor="middle" class="mono" font-size="11" fill="${C.cream}">AJ</text><text x="${cw - 56}" y="44" text-anchor="middle" class="mono" font-size="11" fill="${C.cream}">YOU</text>
+<g class="score"><text x="56" y="98" text-anchor="middle" class="mono" font-size="48" fill="${C.orange}">21</text><text x="${cw - 56}" y="98" text-anchor="middle" class="mono" font-size="48" fill="${C.orange}">19</text></g>
+<g class="score2"><text x="56" y="98" text-anchor="middle" class="mono" font-size="48" fill="${C.orange}">11</text><text x="${cw - 56}" y="98" text-anchor="middle" class="mono" font-size="48" fill="${C.orange}">7</text></g>
+<text x="${cw / 2}" y="88" text-anchor="middle" class="mono blink" font-size="36" fill="${C.red}">:</text>
+${big(16, 156, 'ON THE COURT', C.ink, 26)}<text x="16" y="178" class="mono" font-size="9" fill="${C.slate}">TABLE TENNIS · VOLLEYBALL · PADEL</text>${lab(16, 194, 'not watching. playing.', C.red)}`, 1),
+    // 6 cars
+    card(6, C.ink, `<g transform="translate(${cw / 2} 92)"><circle r="64" fill="#1c1c1c" stroke="${C.cream}" stroke-width="2"/>${sp(9, (k) => { const a = (-210 + k * 30) * Math.PI / 180; return `<line x1="${(52 * Math.cos(a)).toFixed(1)}" y1="${(52 * Math.sin(a)).toFixed(1)}" x2="${(60 * Math.cos(a)).toFixed(1)}" y2="${(60 * Math.sin(a)).toFixed(1)}" stroke="${k > 6 ? C.red : C.cream}" stroke-width="3"/><text x="${(40 * Math.cos(a)).toFixed(1)}" y="${(40 * Math.sin(a) + 4).toFixed(1)}" text-anchor="middle" class="mono" font-size="10" fill="${k > 6 ? C.red : C.cream}">${k}</text>`; })}<g class="needle"><line x1="0" y1="0" x2="50" y2="0" stroke="${C.orange}" stroke-width="4" stroke-linecap="round"/></g><circle r="6" fill="${C.orange}"/></g>
+${big(16, 190, 'CARS', C.white, 30)}<text x="${cw - 16}" y="190" text-anchor="end" class="mono" font-size="10" fill="${C.orange}">ASK ME ANY SPEC</text>`, -0.8),
+    // 7 pc parts
+    card(7, C.slate, `<g transform="translate(${cw / 2} 80) scale(.9)"><rect x="-50" y="-50" width="100" height="100" rx="4" fill="#2b3a52"/>${sp(7, (k) => `<rect x="${-39 + k * 12}" y="-62" width="5" height="12" fill="${C.cream}"/><rect x="${-39 + k * 12}" y="50" width="5" height="12" fill="${C.cream}"/><rect x="-62" y="${-39 + k * 12}" width="12" height="5" fill="${C.cream}"/><rect x="50" y="${-39 + k * 12}" width="12" height="5" fill="${C.cream}"/>`)}<rect x="-30" y="-30" width="60" height="60" fill="${C.ink}"/><circle class="blink" cx="20" cy="-20" r="3" fill="#6ff3c2"/><text y="6" text-anchor="middle" class="mono" font-size="15" fill="${C.cream}">CPU</text></g>
+${big(16, 180, 'PC PARTS', C.white, 28)}${lab(16, 197, "I'LL SPEC YOUR BUILD", C.orange)}`, 1.1),
+    // 8 marvel
+    card(8, C.red, `<rect x="14" y="14" width="${cw - 28}" height="${ch - 28}" fill="none" stroke="${C.white}" stroke-width="2"/>
+${big(30, 80, 'I STAY FOR THE', C.white, 24)}${big(30, 124, 'POST-CREDITS', C.ink, 36)}
+${lab(30, 158, 'MARVEL · ALWAYS', C.white)}${lab(30, 174, 'scroll to the end ↓', C.white)}`, -1.3),
+    // 9 music
+    card(9, C.ink, `<g transform="translate(76 ${ch / 2 - 6})"><g class="spin" style="animation-duration:3s"><circle r="60" fill="#0a0a0a"/>${[52, 43, 34].map((rr) => `<circle r="${rr}" fill="none" stroke="#2c2c2c" stroke-width="1.5"/>`).join('')}<circle r="20" fill="${C.orange}"/><circle r="3" fill="${C.ink}"/></g></g>
+${big(150, 78, 'ON', C.cream, 30)}${big(150, 112, 'REPEAT', C.orange, 30)}${lab(150, 140, '505', C.cream)}${lab(150, 156, 'TAME IMPALA', C.cream)}${lab(150, 172, 'CITY POP @ 2AM', C.cream)}`, 1.3),
+    // 10 mythology
+    card(10, C.slate, `<g transform="translate(66 30) scale(.85)" fill="${C.cream}"><rect x="-34" y="0" width="68" height="12"/><rect x="-28" y="12" width="56" height="8"/>${sp(4, (k) => `<rect x="${-24 + k * 13}" y="22" width="9" height="96"/>`)}<rect x="-30" y="118" width="60" height="8"/><rect x="-36" y="126" width="72" height="12"/></g>
+<path class="zap" d="M${cw - 70} 22 L${cw - 96} 86 L${cw - 76} 86 L${cw - 92} 144 L${cw - 46} 70 L${cw - 68} 70 L${cw - 52} 22Z" fill="#ffd36b"/>
+${big(16, 184, 'MYTHS & LEGENDS', C.white, 23)}${lab(16, 198, 'GODS · MONSTERS · ALL OF IT', C.cream)}`, -1),
+    // 11 aesthetics
+    card(11, C.paper, `${[['#e8d8c9', 'E8D8C9'], ['#4b607f', '4B607F'], ['#f3701e', 'F3701E']].map(([c, h], k) => `<rect x="16" y="${22 + k * 40}" width="${cw - 32}" height="34" rx="6" fill="${c}" stroke="${C.ink}" stroke-opacity=".15"/><text x="${cw - 26}" y="${44 + k * 40}" text-anchor="end" class="mono" font-size="12" fill="${k ? C.ink : C.slate}">#${h}</text>`).join('')}
+${big(16, 172, 'AESTHETICS', C.ink, 28)}${lab(16, 192, 'MY PINTEREST IS A MUSEUM', C.slate)}`, 1),
   ];
   const H = Y0 + 3 * (ch + gy) + 10;
-  const title = ransom('THINGS I\'M INTO', { x: W / 2, y: 52, size: 46, seed: 'into-2' });
-  const svg = `${open(W, H, 'Things I am into: F1, football, 200+ anime, movies and shows, PS4 story games, table tennis, volleyball, padel, cars and PC specs, Marvel, music', css)}
+  const title = ransom('THINGS I\'M INTO', { x: W / 2, y: 54, size: 46, seed: 'into-2' });
+  const svg = `${open(W, H, 'Things I am into: Formula 1, Messi and Argentina, Barça, anime, movies and shows, story games, table tennis, volleyball, padel, cars, PC parts, Marvel, music, mythology, aesthetics', css)}
 <rect width="${W}" height="${H}" fill="${C.paper}"/>
 <path d="M0 ${H} L0 ${H - 160} L240 ${H} Z" fill="url(#dots)" opacity=".4"/>
 ${title.svg}

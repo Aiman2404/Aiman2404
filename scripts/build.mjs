@@ -172,6 +172,9 @@ ${Z.grain(PW, PH)}</svg>`;
 }
 {
   const TW = 1200, TH = 250;
+  const st = Z.ransom(song.toUpperCase(), { x: 0, y: 0, size: 46, seed: 'song' + song, align: 'start', tilt: 10 });
+  const sScale = Math.min(1, 370 / st.width);
+  const songArt = `<g transform="translate(306 112) scale(${sScale.toFixed(3)})">${st.svg}</g>`;
   const qLines = Z.wrap(`“${quote}”`, 30);
   const qSize = qLines.length > 2 ? 24 : 30, lh = qSize + 8;
   const qTop = TH / 2 - ((qLines.length - 1) * lh) / 2 - 6;
@@ -180,9 +183,9 @@ ${Z.grain(PW, PH)}</svg>`;
 <g transform="translate(140 125)"><circle r="104" fill="#0a0a0a"/><g class="spin" style="animation-duration:2.4s">${[96, 84, 72, 60, 50].map((r) => `<circle r="${r}" fill="none" stroke="#262626" stroke-width="1.3"/>`).join('')}<circle r="38" fill="${C.orange}"/><text y="-6" text-anchor="middle" class="mono" font-size="9" fill="${C.ink}">SIDE A</text><text y="14" text-anchor="middle" class="mono" font-size="9" fill="${C.ink}">33 RPM</text><path d="M-90 -30 Q-60 -80 0 -96" fill="none" stroke="#666" stroke-width="2" opacity=".5"/></g><circle r="4" fill="${C.cream}"/></g>
 <g transform="translate(262 26)"><g class="arm"><circle r="12" fill="#666"/><path d="M0 0 L-38 118 L-54 132" stroke="${C.cream}" stroke-width="5" fill="none" stroke-linecap="round"/></g></g>
 <text x="300" y="74" class="mono" font-size="13" fill="${C.orange}" letter-spacing="4">● NOW SPINNING</text>
-<text x="300" y="122" class="serif" font-weight="700" font-size="${song.length > 20 ? 28 : 40}" fill="${C.white}">${Z.esc(song)}</text>
-<text x="300" y="156" class="mono" font-size="17" fill="${C.cream}" letter-spacing="2">${Z.esc(artist.toUpperCase())}</text>
-<text x="300" y="200" class="mono" font-size="11" fill="#888" letter-spacing="2">CLICK TO PLAY · CHANGES DAILY</text>
+${songArt}
+<g transform="translate(300 160) rotate(-1.5)"><rect x="-6" y="-17" width="${artist.length * 12.6 + 24}" height="26" fill="${C.cream}"/><text x="6" y="2" class="mono" font-size="17" fill="${C.ink}" letter-spacing="2">${Z.esc(artist.toUpperCase())}</text></g>
+<text x="300" y="212" class="mono" font-size="11" fill="#888" letter-spacing="2">CLICK TO PLAY · CHANGES DAILY</text>
 <g transform="rotate(-2 940 125)"><path d="M700 ${TH / 2 - 94} L1172 ${TH / 2 - 102} L1180 ${TH / 2 + 90} L708 ${TH / 2 + 98} Z" fill="${C.paper}"/>
 ${Z.tape(940, TH / 2 - 100, 110, 3)}
 ${qLines.map((l, i) => `<text x="736" y="${(qTop + i * lh).toFixed(0)}" class="serif" font-style="italic" font-weight="700" font-size="${qSize}" fill="${C.ink}">${Z.esc(l)}</text>`).join('')}
