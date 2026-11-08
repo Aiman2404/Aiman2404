@@ -1,53 +1,38 @@
 <p align="center">
-  <img src="assets/banner.svg" width="100%" alt="AJ — 何でも屋 — hardware, software, whatever's broken"/>
+  <img src="assets/zine/cover.svg" width="100%" alt="AIMAN — jack of all trades — 何でも屋"/>
 </p>
 
 <p align="center">
-  <i>Computer engineer in the making. I take things from the soldered wire to the screen that runs them —<br/>
-  sensors, AI that sees, apps on top. If it's broken, I'm probably already holding a screwdriver.</i>
+  <a href="https://aiman2404.github.io"><img src="assets/zine/btn-portfolio.svg" width="24%" alt="Portfolio"/></a>
+  <a href="https://www.linkedin.com/in/aiman-jihan-364139382/"><img src="assets/zine/btn-linkedin.svg" width="24%" alt="LinkedIn"/></a>
+  <a href="https://github.com/Aiman2404/steam-ipad"><img src="assets/zine/btn-project.svg" width="24%" alt="steam-ipad"/></a>
+  <a href="https://github.com/Aiman2404/Aiman2404/issues/new?title=note%3A%20&body=Write%20your%20note%20in%20the%20title%20after%20%22note%3A%22%20%E2%80%94%20max%2090%20characters.%20Submit%20and%20it%20gets%20pasted%20into%20the%20zine%20in%20a%20few%20seconds."><img src="assets/zine/btn-note.svg" width="24%" alt="Leave a note"/></a>
 </p>
 
-<p align="center">
-  <a href="https://aiman2404.github.io"><img src="https://img.shields.io/badge/portfolio-0b0820?style=flat-square&logo=githubpages&logoColor=ffb36b&labelColor=0b0820&color=1a0f3a" alt="portfolio"/></a>
-  <a href="https://www.linkedin.com/in/aiman-jihan-364139382/"><img src="https://img.shields.io/badge/linkedin-0b0820?style=flat-square&logo=linkedin&logoColor=6ff3e4&labelColor=0b0820&color=1a0f3a" alt="linkedin"/></a>
-</p>
+<!--ZINE-TONIGHT:START-->
+<p align="center"><a href="https://open.spotify.com/search/Borderline%20Tame%20Impala"><img src="assets/zine/tonight.svg" width="100%" alt="Now spinning: Borderline — Tame Impala"/></a></p>
+<!--ZINE-TONIGHT:END-->
 
-<!--TONIGHT:START-->
-<p align="center">
-  <sub>📻 <b>ON THE DECK TONIGHT</b></sub><br/>
-  <a href="https://open.spotify.com/search/Borderline%20Tame%20Impala"><b>Borderline</b> — Tame Impala</a><br/>
-  <sub><i>“Even Atlas takes a lap around the block at 2am.”</i></sub>
-</p>
-<!--TONIGHT:END-->
+<p align="center"><img src="assets/zine/into.svg" width="100%" alt="Things I'm into"/></p>
 
-<br/>
+<p align="center"><img src="assets/zine/loadout.svg" width="100%" alt="Loadout"/></p>
 
-<p align="center"><img src="assets/sky.svg" width="100%" alt="Contribution star chart"/></p>
+<p align="center"><img src="assets/zine/punchcard.svg" width="100%" alt="Contribution punch card"/></p>
 
-<p align="center"><img src="assets/inventory.svg" width="100%" alt="Inventory"/></p>
-
-<br/>
-
-<table align="center"><tr><td>
-
-**⟡ currently in the workshop**
-&nbsp;[`steam-ipad`](https://github.com/Aiman2404/steam-ipad) — a Steam Deck-style music deck for iPad: Spotify control, synced lyrics, one-click laptop link.
-
-**⟡ side quests**
-&nbsp;night drives · football · way too many games · mythology rabbit holes · anime (yes, the long ones)
-
-</td></tr></table>
-
-<br/>
-
-<h3 align="center">🍾 message in a bottle</h3>
-<p align="center">
-  <sub>Throw a short message into the sea — it washes up right here, on this page.</sub><br/>
-  <a href="https://github.com/Aiman2404/Aiman2404/issues/new?title=bottle%3A%20&body=Write%20your%20message%20in%20the%20title%20after%20%22bottle%3A%22%20%E2%80%94%20max%2090%20characters.%20Hit%20Submit%20and%20it%20lands%20on%20the%20profile%20in%20a%20few%20seconds."><b>→ throw a bottle</b></a>
-</p>
+<h3 align="center">✂ notes from visitors</h3>
+<p align="center"><sub>hit <b>LEAVE A NOTE</b> up top — your words get cut out and pasted in here.</sub></p>
 
 <!--BOTTLES:START-->
-<p align="center"><sub><i>the shore is quiet… be the first.</i></sub></p>
+<p align="center"><sub><i>no notes yet… be the first.</i></sub></p>
 <!--BOTTLES:END-->
 
-<p align="center"><sub>the sky redraws itself every night from my commits · the track and the omen change daily</sub></p>
+<br/>
+
+<details>
+<summary><b>🎬 post-credits scene</b></summary>
+<br/>
+<p align="center">
+  <img src="assets/zine/cat.svg" width="220" alt="a sleepy pixel cat"/><br/>
+  <sub><i>you actually stayed till the end. respect.<br/>AJ will return.</i></sub>
+</p>
+</details>

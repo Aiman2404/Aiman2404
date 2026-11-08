@@ -2,14 +2,14 @@
 import { writeFile } from 'node:fs/promises';
 const RAR = { legendary: '#ffb36b', epic: '#ff6f9a', rare: '#6ff3e4', quest: '#c9b8ff' };
 const ITEMS = [
-  ['Soldering Iron', 'hardware · repair', 'legendary', 5],
-  ['ESP32 + Sensors', 'IoT · embedded', 'legendary', 4],
+  ['Hardware', 'circuits · repair', 'legendary', 5],
+  ['Microcontrollers', 'embedded · IoT', 'legendary', 4],
   ['C++ / C#', 'native code', 'epic', 4],
-  ['Gemini + Vision', 'AI that sees', 'epic', 3],
+  ['AI / ML', 'models into products', 'epic', 3],
   ['React + Tailwind', 'the screen part', 'rare', 4],
   ['Firebase / .NET', 'the backend part', 'rare', 4],
   ['Camera + CapCut', 'video · photo', 'epic', 5],
-  ['Swift', 'side quest · in progress', 'quest', 1],
+  ['Networking', 'routing · Linux', 'rare', 3],
 ];
 const W = 1200, cols = 4, pad = 40, gap = 16, cw = (W - pad * 2 - gap * (cols - 1)) / cols, ch = 86;
 const rows = Math.ceil(ITEMS.length / cols), H = 70 + rows * (ch + gap) + 24;

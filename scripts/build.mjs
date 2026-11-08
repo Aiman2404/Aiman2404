@@ -1,7 +1,7 @@
 // Builds assets/sky.svg from the contribution calendar and refreshes the
 // rotating "tonight" block in README.md. Runs daily in GitHub Actions.
 // Usage: GITHUB_TOKEN=... node scripts/build.mjs
-import { readFile, writeFile } from 'node:fs/promises';
+import { readFile, writeFile, mkdir } from 'node:fs/promises';
 
 const USER = process.env.PROFILE_USER || 'Aiman2404';
 const TOKEN = process.env.GITHUB_TOKEN;
@@ -113,32 +113,100 @@ const TRACKS = [
   ['R U Mine?', 'Arctic Monkeys'], ['Mayonaka no Door', 'Miki Matsubara'], ['Eventually', 'Tame Impala'],
   ['Fluorescent Adolescent', 'Arctic Monkeys'], ['New Person, Same Old Mistakes', 'Tame Impala'], ['Why\'d You Only Call Me When You\'re High?', 'Arctic Monkeys'],
 ];
-const OMENS = [
-  'Gilgamesh went looking for forever and came home with a story. Ship the story.',
-  'Sisyphus, but the boulder is a merge conflict.',
-  'Hephaestus was the only god who fixed his own stuff. Respect.',
-  'Odin gave an eye for wisdom. I gave a weekend to a loose jumper wire.',
-  'Every map ends at the edge. That is where the good part is drawn.',
-  'Prometheus stole fire. I stole 5 volts off a USB port.',
-  'The ferryman asks one coin. The compiler asks one semicolon.',
-  'Icarus had a thermal-management problem.',
-  'Daedalus built the labyrinth and still needed a way out. Write docs.',
-  'Anansi won every story by being curious first.',
-  'The Norns weave fate in threads. I weave it in jumper cables.',
-  'Even Atlas takes a lap around the block at 2am.',
+const QUOTES = [
+  ["I'm gonna be King of the Pirates!", 'Monkey D. Luffy'],
+  ['Whatever happens, happens.', 'Spike Spiegel'],
+  ['Stand up and walk. Keep moving forward.', 'Edward Elric'],
+  ['A lesson without pain is meaningless.', 'Edward Elric'],
+  ["If you win, you live. If you lose, you die. If you don't fight, you can't win!", 'Eren Yeager'],
+  ["People's dreams... never end!", 'Marshall D. Teach'],
+  ['Lights out and away we go!', 'every F1 Sunday'],
+  ['You have to fight to reach your dream.', 'Lionel Messi'],
+  ['I can do this all day.', 'Steve Rogers'],
+  ['I am inevitable.', 'Thanos'],
+  ['Nothing is true, everything is permitted.', "Assassin's Creed"],
+  ['War. War never changes.', 'Fallout'],
+  ["It's dangerous to go alone! Take this.", 'The Legend of Zelda'],
+  ['Plus Ultra!', 'All Might'],
+  ['Football is played with the head. Your feet are just the tools.', 'Andrea Pirlo'],
 ];
 const day = Math.floor(Date.now() / 864e5);
 const [song, artist] = TRACKS[day % TRACKS.length];
-const omen = OMENS[(day * 7) % OMENS.length];
-const q = encodeURIComponent(`${song} ${artist}`);
-const block = `<!--TONIGHT:START-->
+const [quote, who] = QUOTES[(day * 7) % QUOTES.length];
+const spotify = `https://open.spotify.com/search/${encodeURIComponent(`${song} ${artist}`)}`;
+
+// ---------- zine: punch card + now spinning ----------
+const Z = await import('./zine-lib.mjs');
+const { C } = Z;
+await mkdir(new URL('../assets/zine/', import.meta.url), { recursive: true });
+{
+  const PW = 1200, PH = 330, hx = 54, hy = 118, sx = (PW - 2 * hx - 40) / 52, sy = 25;
+  const holes = days.map((d) => {
+    const x = (hx + d.wi * sx).toFixed(1), y = hy + d.weekday * sy, c = d.contributionCount;
+    if (!c) return `<circle cx="${x}" cy="${y}" r="5.2" fill="none" stroke="${C.slate}" stroke-opacity=".35" stroke-width="1.2"/>`;
+    const ring = [C.slate, C.orange, C.red][Math.ceil((c / max) * 3) - 1];
+    return `<g><title>${d.date}: ${c}</title><circle cx="${x}" cy="${y}" r="8" fill="${ring}"/><circle cx="${x}" cy="${y}" r="5" fill="${C.ink}"/></g>`;
+  }).join('');
+  const bd = days.find((d) => d.date === brightest.date);
+  const bx = hx + bd.wi * sx, by = hy + bd.weekday * sy;
+  const num = Z.ransom(String(cal.totalContributions), { x: 54, y: 56, size: 58, seed: 'num' + cal.totalContributions, align: 'start' });
+  const mo = []; let lm = -1;
+  cal.weeks.forEach((w, i) => {
+    const dt = new Date(w.contributionDays[0].date + 'T00:00:00Z'), m = dt.getUTCMonth();
+    if (m !== lm && (i < cal.weeks.length - 2)) { mo.push(`<text x="${(hx + i * sx - 6).toFixed(1)}" y="${PH - 24}" class="mono" font-size="11" fill="${C.slate}">${dt.toLocaleString('en', { month: 'short', timeZone: 'UTC' }).toUpperCase()}</text>`); lm = m; }
+  });
+  const card = `<svg xmlns="http://www.w3.org/2000/svg" width="${PW}" height="${PH}" viewBox="0 0 ${PW} ${PH}" role="img" aria-label="${cal.totalContributions} contributions in the last year, as a punch card">${Z.defs('.st{animation:st 4s ease-in-out infinite;transform-box:fill-box;transform-origin:center}@keyframes st{50%{transform:rotate(18deg) scale(1.15)}}')}
+<rect width="${PW}" height="${PH}" fill="${C.ink}"/>
+<path d="M14 14 H${PW - 60} L${PW - 14} 60 V${PH - 14} H14 Z" fill="${C.paper}"/>
+${num.svg}
+<text x="${(74 + num.width).toFixed(0)}" y="50" class="heavy" font-size="30" fill="${C.ink}" letter-spacing="1">CONTRIBUTIONS</text>
+<text x="${(76 + num.width).toFixed(0)}" y="74" class="mono" font-size="12" fill="${C.slate}" letter-spacing="3">PUNCHED IN OVER THE LAST 12 MONTHS</text>
+<text x="${PW - 80}" y="48" text-anchor="end" class="mono" font-size="13" fill="${C.ink}" letter-spacing="2">LONGEST RUN · ${longest} DAY${longest === 1 ? '' : 'S'}</text>
+<text x="${PW - 80}" y="70" text-anchor="end" class="mono" font-size="13" fill="${C.red}" letter-spacing="2">BEST DAY ★ ${brightest.date}</text>
+${holes}
+<g class="st"><path d="${Z.star(bx, by - 20, 11)}" fill="${C.orange}" stroke="${C.ink}" stroke-width="2"/></g>
+${mo.join('')}
+<text x="${PW - 54}" y="${PH - 24}" text-anchor="end" class="mono" font-size="10" fill="${C.slate}" letter-spacing="2">DO NOT FOLD</text>
+${Z.grain(PW, PH)}</svg>`;
+  await writeFile(new URL('../assets/zine/punchcard.svg', import.meta.url), card);
+}
+{
+  const TW = 1200, TH = 250;
+  const qLines = Z.wrap(`“${quote}”`, 30);
+  const qSize = qLines.length > 2 ? 24 : 30, lh = qSize + 8;
+  const qTop = TH / 2 - ((qLines.length - 1) * lh) / 2 - 6;
+  const tonight = `<svg xmlns="http://www.w3.org/2000/svg" width="${TW}" height="${TH}" viewBox="0 0 ${TW} ${TH}" role="img" aria-label="Now spinning: ${Z.esc(song)} by ${Z.esc(artist)}. ${Z.esc(quote)} — ${Z.esc(who)}">${Z.defs('.arm{animation:arm 6s ease-in-out infinite;transform-origin:0 0}@keyframes arm{50%{transform:rotate(3deg)}}')}
+<rect width="${TW}" height="${TH}" fill="${C.ink}"/>
+<g transform="translate(140 125)"><circle r="104" fill="#0a0a0a"/><g class="spin" style="animation-duration:2.4s">${[96, 84, 72, 60, 50].map((r) => `<circle r="${r}" fill="none" stroke="#262626" stroke-width="1.3"/>`).join('')}<circle r="38" fill="${C.orange}"/><text y="-6" text-anchor="middle" class="mono" font-size="9" fill="${C.ink}">SIDE A</text><text y="14" text-anchor="middle" class="mono" font-size="9" fill="${C.ink}">33 RPM</text><path d="M-90 -30 Q-60 -80 0 -96" fill="none" stroke="#666" stroke-width="2" opacity=".5"/></g><circle r="4" fill="${C.cream}"/></g>
+<g transform="translate(262 26)"><g class="arm"><circle r="12" fill="#666"/><path d="M0 0 L-38 118 L-54 132" stroke="${C.cream}" stroke-width="5" fill="none" stroke-linecap="round"/></g></g>
+<text x="300" y="74" class="mono" font-size="13" fill="${C.orange}" letter-spacing="4">● NOW SPINNING</text>
+<text x="300" y="122" class="serif" font-weight="700" font-size="${song.length > 20 ? 28 : 40}" fill="${C.white}">${Z.esc(song)}</text>
+<text x="300" y="156" class="mono" font-size="17" fill="${C.cream}" letter-spacing="2">${Z.esc(artist.toUpperCase())}</text>
+<text x="300" y="200" class="mono" font-size="11" fill="#888" letter-spacing="2">CLICK TO PLAY · CHANGES DAILY</text>
+<g transform="rotate(-2 940 125)"><path d="M700 ${TH / 2 - 94} L1172 ${TH / 2 - 102} L1180 ${TH / 2 + 90} L708 ${TH / 2 + 98} Z" fill="${C.paper}"/>
+${Z.tape(940, TH / 2 - 100, 110, 3)}
+${qLines.map((l, i) => `<text x="736" y="${(qTop + i * lh).toFixed(0)}" class="serif" font-style="italic" font-weight="700" font-size="${qSize}" fill="${C.ink}">${Z.esc(l)}</text>`).join('')}
+<text x="1150" y="${TH / 2 + 78}" text-anchor="end" class="mono" font-size="14" fill="${C.red}" letter-spacing="2">— ${Z.esc(who.toUpperCase())}</text></g>
+${Z.grain(TW, TH)}</svg>`;
+  await writeFile(new URL('../assets/zine/tonight.svg', import.meta.url), tonight);
+}
+
+// ---------- README blocks ----------
+const textBlock = `<!--TONIGHT:START-->
 <p align="center">
   <sub>📻 <b>ON THE DECK TONIGHT</b></sub><br/>
-  <a href="https://open.spotify.com/search/${q}"><b>${song}</b> — ${artist}</a><br/>
-  <sub><i>“${omen}”</i></sub>
+  <a href="${spotify}"><b>${song}</b> — ${artist}</a><br/>
+  <sub><i>“${quote}” — ${who}</i></sub>
 </p>
 <!--TONIGHT:END-->`;
-const readmeUrl = new URL('../README.md', import.meta.url);
-const readme = await readFile(readmeUrl, 'utf8');
-await writeFile(readmeUrl, readme.replace(/<!--TONIGHT:START-->[\s\S]*?<!--TONIGHT:END-->/, block));
-console.log(`sky: ${cal.totalContributions} contributions, ${lit.length} lit days, ${named.length} constellations; tonight: ${song}`);
+const zineBlock = `<!--ZINE-TONIGHT:START-->
+<p align="center"><a href="${spotify}"><img src="assets/zine/tonight.svg" width="100%" alt="Now spinning: ${song} — ${artist}"/></a></p>
+<!--ZINE-TONIGHT:END-->`;
+for (const f of ['../README.md', '../alt/night-drive.md']) {
+  const u = new URL(f, import.meta.url);
+  let t; try { t = await readFile(u, 'utf8'); } catch { continue; }
+  t = t.replace(/<!--TONIGHT:START-->[\s\S]*?<!--TONIGHT:END-->/, textBlock)
+    .replace(/<!--ZINE-TONIGHT:START-->[\s\S]*?<!--ZINE-TONIGHT:END-->/, zineBlock.replace('src="assets/', f.includes('alt/') ? 'src="../assets/' : 'src="assets/'));
+  await writeFile(u, t);
+}
+console.log(`sky + punchcard: ${cal.totalContributions} contributions; tonight: ${song} / ${who}`);

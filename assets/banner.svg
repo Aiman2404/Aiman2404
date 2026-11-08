@@ -81,7 +81,7 @@
     </g>
   </g>
 
-  <!-- mountains (Zagros silhouette, loosely) -->
+  <!-- mountains -->
   <path d="M0 262 L70 220 L120 238 L190 196 L250 230 L320 206 L380 240 L430 224 L480 262 Z" fill="#120a26"/>
   <path d="M720 262 L770 228 L830 244 L900 200 L960 232 L1020 210 L1090 238 L1150 214 L1200 236 L1200 262 Z" fill="#120a26"/>
 
@@ -102,6 +102,5 @@
   <text class="name" x="600" y="128" text-anchor="middle">AJ</text>
   <text class="kanji flick" x="58" y="120" writing-mode="tb" style="writing-mode:vertical-rl">何でも屋</text>
   <text class="sub" x="600" y="164" text-anchor="middle">HARDWARE · SOFTWARE · WHATEVER'S BROKEN</text>
-  <text class="tiny" x="1140" y="360" text-anchor="end">UNDER THE ZAGROS · NIGHT SHIFT</text>
   <text class="tiny" x="60" y="360">TRACK 01 — SIDE A</text>
 </svg>

@@ -8,7 +8,7 @@ permissions:
 concurrency: { group: profile-write, cancel-in-progress: false }
 jobs:
   wash-ashore:
-    if: startsWith(github.event.issue.title, 'bottle:')
+    if: startsWith(github.event.issue.title, 'bottle:') || startsWith(github.event.issue.title, 'note:')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,7 +18,7 @@ jobs:
             const fs = require('fs');
             const issue = context.payload.issue;
             // Keep only letters, numbers, spaces and gentle punctuation: no markdown, no HTML, no links.
-            let msg = issue.title.slice('bottle:'.length)
+            let msg = issue.title.replace(/^(bottle|note):/, '')
               .normalize('NFKC')
               .replace(/[^\p{L}\p{N}\p{Emoji_Presentation} .,!?'’\-]/gu, '')
               .replace(/\s+/g, ' ').trim().slice(0, 90);
@@ -27,17 +27,17 @@ jobs:
               await github.rest.issues.createComment({ ...context.repo, issue_number: issue.number, body });
               await github.rest.issues.update({ ...context.repo, issue_number: issue.number, state: 'closed', state_reason: msg ? 'completed' : 'not_planned' });
             };
-            if (msg.length < 2) return reply('The bottle was empty 🫙 — write your message in the title after `bottle:` and try again.');
+            if (msg.length < 2) return reply('Nothing to paste — write your note in the title after `note:` and try again.');
             const path = 'bottles.json';
             const list = fs.existsSync(path) ? JSON.parse(fs.readFileSync(path, 'utf8')) : [];
             list.unshift({ who, msg, at: new Date().toISOString().slice(0, 10) });
             const keep = list.slice(0, 6);
             fs.writeFileSync(path, JSON.stringify(keep, null, 2) + '\n');
-            const rows = keep.map((b) => `<p align="center"><i>“${b.msg}”</i><br/><sub>— <a href="https://github.com/${b.who}">@${b.who}</a> · ${b.at}</sub></p>`).join('\n');
+            const rows = keep.map((b) => `<p align="center"><b><i>“${b.msg}”</i></b><br/><sub>✂ <a href="https://github.com/${b.who}">@${b.who}</a> · ${b.at}</sub></p>`).join('\n');
             const readme = fs.readFileSync('README.md', 'utf8')
               .replace(/<!--BOTTLES:START-->[\s\S]*?<!--BOTTLES:END-->/, `<!--BOTTLES:START-->\n${rows}\n<!--BOTTLES:END-->`);
             fs.writeFileSync('README.md', readme);
             const { execSync } = require('child_process');
             execSync(`git config user.name 'github-actions[bot]' && git config user.email '41898282+github-actions[bot]@users.noreply.github.com'`);
-            execSync('git add README.md bottles.json && git commit -m "a bottle washed ashore" && git pull --rebase && git push');
-            await reply(`Your bottle washed ashore 🍾 — it's on the profile now: https://github.com/${context.repo.owner}`);
+            execSync('git add README.md bottles.json && git commit -m "a note got pasted in" && git pull --rebase && git push');
+            await reply(`Cut out and pasted ✂ — your note is on the profile now: https://github.com/${context.repo.owner}`);
