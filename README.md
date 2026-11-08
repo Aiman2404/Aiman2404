@@ -47,7 +47,7 @@
 </p>
 
 <!--BOTTLES:START-->
-<p align="center"><i>“first light on the shore”</i><br/><sub>— <a href="https://github.com/Aiman2404">@Aiman2404</a> · 2026-11-08</sub></p>
+<p align="center"><sub><i>the shore is quiet… be the first.</i></sub></p>
 <!--BOTTLES:END-->
 
 <p align="center"><sub>the sky redraws itself every night from my commits · the track and the omen change daily</sub></p>
