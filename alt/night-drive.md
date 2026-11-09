@@ -14,8 +14,8 @@
 <!--TONIGHT:START-->
 <p align="center">
   <sub>📻 <b>ON THE DECK TONIGHT</b></sub><br/>
-  <a href="https://open.spotify.com/search/Borderline%20Tame%20Impala"><b>Borderline</b> — Tame Impala</a><br/>
-  <sub><i>“People's dreams... never end!” — Marshall D. Teach</i></sub>
+  <a href="https://open.spotify.com/search/R%20U%20Mine%3F%20Arctic%20Monkeys"><b>R U Mine?</b> — Arctic Monkeys</a><br/>
+  <sub><i>“It's dangerous to go alone! Take this.” — The Legend of Zelda</i></sub>
 </p>
 <!--TONIGHT:END-->
 
