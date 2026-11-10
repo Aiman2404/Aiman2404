@@ -27,7 +27,7 @@
 <p align="center"><sub>hit <b>LEAVE A NOTE</b> up top — your words get cut out and pasted in here.</sub></p>
 
 <!--BOTTLES:START-->
-<p align="center"><sub><i>no notes yet… be the first.</i></sub></p>
+<p align="center"><b><i>“testing the notes wall”</i></b><br/><sub>✂ <a href="https://github.com/Aiman2404">@Aiman2404</a> · 2026-11-10</sub></p>
 <!--BOTTLES:END-->
 
 <br/>
