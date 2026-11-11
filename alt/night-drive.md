@@ -14,8 +14,8 @@
 <!--TONIGHT:START-->
 <p align="center">
   <sub>📻 <b>ON THE DECK TONIGHT</b></sub><br/>
-  <a href="https://open.spotify.com/search/Mayonaka%20no%20Door%20Miki%20Matsubara"><b>Mayonaka no Door</b> — Miki Matsubara</a><br/>
-  <sub><i>“If you win, you live. If you lose, you die. If you don't fight, you can't win!” — Eren Yeager</i></sub>
+  <a href="https://open.spotify.com/search/Eventually%20Tame%20Impala"><b>Eventually</b> — Tame Impala</a><br/>
+  <sub><i>“War. War never changes.” — Fallout</i></sub>
 </p>
 <!--TONIGHT:END-->
 
