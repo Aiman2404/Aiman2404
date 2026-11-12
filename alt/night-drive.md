@@ -14,8 +14,8 @@
 <!--TONIGHT:START-->
 <p align="center">
   <sub>📻 <b>ON THE DECK TONIGHT</b></sub><br/>
-  <a href="https://open.spotify.com/search/Eventually%20Tame%20Impala"><b>Eventually</b> — Tame Impala</a><br/>
-  <sub><i>“War. War never changes.” — Fallout</i></sub>
+  <a href="https://open.spotify.com/search/Fluorescent%20Adolescent%20Arctic%20Monkeys"><b>Fluorescent Adolescent</b> — Arctic Monkeys</a><br/>
+  <sub><i>“A lesson without pain is meaningless.” — Edward Elric</i></sub>
 </p>
 <!--TONIGHT:END-->
 
