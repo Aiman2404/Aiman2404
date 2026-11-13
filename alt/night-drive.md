@@ -14,8 +14,8 @@
 <!--TONIGHT:START-->
 <p align="center">
   <sub>📻 <b>ON THE DECK TONIGHT</b></sub><br/>
-  <a href="https://open.spotify.com/search/Fluorescent%20Adolescent%20Arctic%20Monkeys"><b>Fluorescent Adolescent</b> — Arctic Monkeys</a><br/>
-  <sub><i>“A lesson without pain is meaningless.” — Edward Elric</i></sub>
+  <a href="https://open.spotify.com/search/New%20Person%2C%20Same%20Old%20Mistakes%20Tame%20Impala"><b>New Person, Same Old Mistakes</b> — Tame Impala</a><br/>
+  <sub><i>“Nothing is true, everything is permitted.” — Assassin's Creed</i></sub>
 </p>
 <!--TONIGHT:END-->
 
