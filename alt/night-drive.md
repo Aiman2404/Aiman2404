@@ -14,8 +14,8 @@
 <!--TONIGHT:START-->
 <p align="center">
   <sub>📻 <b>ON THE DECK TONIGHT</b></sub><br/>
-  <a href="https://open.spotify.com/search/Why'd%20You%20Only%20Call%20Me%20When%20You're%20High%3F%20Arctic%20Monkeys"><b>Why'd You Only Call Me When You're High?</b> — Arctic Monkeys</a><br/>
-  <sub><i>“Stand up and walk. Keep moving forward.” — Edward Elric</i></sub>
+  <a href="https://open.spotify.com/search/505%20Arctic%20Monkeys"><b>505</b> — Arctic Monkeys</a><br/>
+  <sub><i>“I am inevitable.” — Thanos</i></sub>
 </p>
 <!--TONIGHT:END-->
 
