@@ -14,8 +14,8 @@
 <!--TONIGHT:START-->
 <p align="center">
   <sub>📻 <b>ON THE DECK TONIGHT</b></sub><br/>
-  <a href="https://open.spotify.com/search/505%20Arctic%20Monkeys"><b>505</b> — Arctic Monkeys</a><br/>
-  <sub><i>“I am inevitable.” — Thanos</i></sub>
+  <a href="https://open.spotify.com/search/Let%20It%20Happen%20Tame%20Impala"><b>Let It Happen</b> — Tame Impala</a><br/>
+  <sub><i>“Whatever happens, happens.” — Spike Spiegel</i></sub>
 </p>
 <!--TONIGHT:END-->
 
