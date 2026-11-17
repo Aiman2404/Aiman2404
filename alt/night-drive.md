@@ -14,8 +14,8 @@
 <!--TONIGHT:START-->
 <p align="center">
   <sub>📻 <b>ON THE DECK TONIGHT</b></sub><br/>
-  <a href="https://open.spotify.com/search/Let%20It%20Happen%20Tame%20Impala"><b>Let It Happen</b> — Tame Impala</a><br/>
-  <sub><i>“Whatever happens, happens.” — Spike Spiegel</i></sub>
+  <a href="https://open.spotify.com/search/Do%20I%20Wanna%20Know%3F%20Arctic%20Monkeys"><b>Do I Wanna Know?</b> — Arctic Monkeys</a><br/>
+  <sub><i>“I can do this all day.” — Steve Rogers</i></sub>
 </p>
 <!--TONIGHT:END-->
 
