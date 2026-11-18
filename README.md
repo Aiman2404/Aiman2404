@@ -10,7 +10,7 @@
 </p>
 
 <!--ZINE-TONIGHT:START-->
-<p align="center"><a href="https://open.spotify.com/search/Do%20I%20Wanna%20Know%3F%20Arctic%20Monkeys"><img src="assets/zine/tonight.svg" width="100%" alt="Now spinning: Do I Wanna Know? — Arctic Monkeys"/></a></p>
+<p align="center"><a href="https://open.spotify.com/search/The%20Less%20I%20Know%20the%20Better%20Tame%20Impala"><img src="assets/zine/tonight.svg" width="100%" alt="Now spinning: The Less I Know the Better — Tame Impala"/></a></p>
 <!--ZINE-TONIGHT:END-->
 
 <p align="center"><img src="assets/zine/into.svg" width="100%" alt="Things I'm into"/></p>
