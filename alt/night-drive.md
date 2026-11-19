@@ -14,8 +14,8 @@
 <!--TONIGHT:START-->
 <p align="center">
   <sub>📻 <b>ON THE DECK TONIGHT</b></sub><br/>
-  <a href="https://open.spotify.com/search/The%20Less%20I%20Know%20the%20Better%20Tame%20Impala"><b>The Less I Know the Better</b> — Tame Impala</a><br/>
-  <sub><i>“I'm gonna be King of the Pirates!” — Monkey D. Luffy</i></sub>
+  <a href="https://open.spotify.com/search/Plastic%20Love%20Mariya%20Takeuchi"><b>Plastic Love</b> — Mariya Takeuchi</a><br/>
+  <sub><i>“You have to fight to reach your dream.” — Lionel Messi</i></sub>
 </p>
 <!--TONIGHT:END-->
 

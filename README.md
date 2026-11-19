@@ -10,7 +10,7 @@
 </p>
 
 <!--ZINE-TONIGHT:START-->
-<p align="center"><a href="https://open.spotify.com/search/The%20Less%20I%20Know%20the%20Better%20Tame%20Impala"><img src="assets/zine/tonight.svg" width="100%" alt="Now spinning: The Less I Know the Better — Tame Impala"/></a></p>
+<p align="center"><a href="https://open.spotify.com/search/Plastic%20Love%20Mariya%20Takeuchi"><img src="assets/zine/tonight.svg" width="100%" alt="Now spinning: Plastic Love — Mariya Takeuchi"/></a></p>
 <!--ZINE-TONIGHT:END-->
 
 <p align="center"><img src="assets/zine/into.svg" width="100%" alt="Things I'm into"/></p>
