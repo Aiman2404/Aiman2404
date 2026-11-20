@@ -14,8 +14,8 @@
 <!--TONIGHT:START-->
 <p align="center">
   <sub>📻 <b>ON THE DECK TONIGHT</b></sub><br/>
-  <a href="https://open.spotify.com/search/Plastic%20Love%20Mariya%20Takeuchi"><b>Plastic Love</b> — Mariya Takeuchi</a><br/>
-  <sub><i>“You have to fight to reach your dream.” — Lionel Messi</i></sub>
+  <a href="https://open.spotify.com/search/Borderline%20Tame%20Impala"><b>Borderline</b> — Tame Impala</a><br/>
+  <sub><i>“Football is played with the head. Your feet are just the tools.” — Andrea Pirlo</i></sub>
 </p>
 <!--TONIGHT:END-->
 
