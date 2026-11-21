@@ -14,8 +14,8 @@
 <!--TONIGHT:START-->
 <p align="center">
   <sub>📻 <b>ON THE DECK TONIGHT</b></sub><br/>
-  <a href="https://open.spotify.com/search/Borderline%20Tame%20Impala"><b>Borderline</b> — Tame Impala</a><br/>
-  <sub><i>“Football is played with the head. Your feet are just the tools.” — Andrea Pirlo</i></sub>
+  <a href="https://open.spotify.com/search/R%20U%20Mine%3F%20Arctic%20Monkeys"><b>R U Mine?</b> — Arctic Monkeys</a><br/>
+  <sub><i>“Lights out and away we go!” — every F1 Sunday</i></sub>
 </p>
 <!--TONIGHT:END-->
 
