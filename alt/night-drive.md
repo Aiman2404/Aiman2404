@@ -14,8 +14,8 @@
 <!--TONIGHT:START-->
 <p align="center">
   <sub>📻 <b>ON THE DECK TONIGHT</b></sub><br/>
-  <a href="https://open.spotify.com/search/R%20U%20Mine%3F%20Arctic%20Monkeys"><b>R U Mine?</b> — Arctic Monkeys</a><br/>
-  <sub><i>“Lights out and away we go!” — every F1 Sunday</i></sub>
+  <a href="https://open.spotify.com/search/Mayonaka%20no%20Door%20Miki%20Matsubara"><b>Mayonaka no Door</b> — Miki Matsubara</a><br/>
+  <sub><i>“Plus Ultra!” — All Might</i></sub>
 </p>
 <!--TONIGHT:END-->
 
