@@ -14,8 +14,8 @@
 <!--TONIGHT:START-->
 <p align="center">
   <sub>📻 <b>ON THE DECK TONIGHT</b></sub><br/>
-  <a href="https://open.spotify.com/search/Mayonaka%20no%20Door%20Miki%20Matsubara"><b>Mayonaka no Door</b> — Miki Matsubara</a><br/>
-  <sub><i>“Plus Ultra!” — All Might</i></sub>
+  <a href="https://open.spotify.com/search/Eventually%20Tame%20Impala"><b>Eventually</b> — Tame Impala</a><br/>
+  <sub><i>“People's dreams... never end!” — Marshall D. Teach</i></sub>
 </p>
 <!--TONIGHT:END-->
 
