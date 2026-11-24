@@ -10,7 +10,7 @@
 </p>
 
 <!--ZINE-TONIGHT:START-->
-<p align="center"><a href="https://open.spotify.com/search/Eventually%20Tame%20Impala"><img src="assets/zine/tonight.svg" width="100%" alt="Now spinning: Eventually — Tame Impala"/></a></p>
+<p align="center"><a href="https://open.spotify.com/search/Fluorescent%20Adolescent%20Arctic%20Monkeys"><img src="assets/zine/tonight.svg" width="100%" alt="Now spinning: Fluorescent Adolescent — Arctic Monkeys"/></a></p>
 <!--ZINE-TONIGHT:END-->
 
 <p align="center"><img src="assets/zine/into.svg" width="100%" alt="Things I'm into"/></p>
