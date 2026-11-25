@@ -14,8 +14,8 @@
 <!--TONIGHT:START-->
 <p align="center">
   <sub>📻 <b>ON THE DECK TONIGHT</b></sub><br/>
-  <a href="https://open.spotify.com/search/Fluorescent%20Adolescent%20Arctic%20Monkeys"><b>Fluorescent Adolescent</b> — Arctic Monkeys</a><br/>
-  <sub><i>“It's dangerous to go alone! Take this.” — The Legend of Zelda</i></sub>
+  <a href="https://open.spotify.com/search/New%20Person%2C%20Same%20Old%20Mistakes%20Tame%20Impala"><b>New Person, Same Old Mistakes</b> — Tame Impala</a><br/>
+  <sub><i>“If you win, you live. If you lose, you die. If you don't fight, you can't win!” — Eren Yeager</i></sub>
 </p>
 <!--TONIGHT:END-->
 
