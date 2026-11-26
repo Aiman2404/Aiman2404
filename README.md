@@ -10,7 +10,7 @@
 </p>
 
 <!--ZINE-TONIGHT:START-->
-<p align="center"><a href="https://open.spotify.com/search/New%20Person%2C%20Same%20Old%20Mistakes%20Tame%20Impala"><img src="assets/zine/tonight.svg" width="100%" alt="Now spinning: New Person, Same Old Mistakes — Tame Impala"/></a></p>
+<p align="center"><a href="https://open.spotify.com/search/Why'd%20You%20Only%20Call%20Me%20When%20You're%20High%3F%20Arctic%20Monkeys"><img src="assets/zine/tonight.svg" width="100%" alt="Now spinning: Why'd You Only Call Me When You're High? — Arctic Monkeys"/></a></p>
 <!--ZINE-TONIGHT:END-->
 
 <p align="center"><img src="assets/zine/into.svg" width="100%" alt="Things I'm into"/></p>
