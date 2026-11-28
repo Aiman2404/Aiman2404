@@ -10,7 +10,7 @@
 </p>
 
 <!--ZINE-TONIGHT:START-->
-<p align="center"><a href="https://open.spotify.com/search/505%20Arctic%20Monkeys"><img src="assets/zine/tonight.svg" width="100%" alt="Now spinning: 505 — Arctic Monkeys"/></a></p>
+<p align="center"><a href="https://open.spotify.com/search/Let%20It%20Happen%20Tame%20Impala"><img src="assets/zine/tonight.svg" width="100%" alt="Now spinning: Let It Happen — Tame Impala"/></a></p>
 <!--ZINE-TONIGHT:END-->
 
 <p align="center"><img src="assets/zine/into.svg" width="100%" alt="Things I'm into"/></p>
